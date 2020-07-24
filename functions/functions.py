@@ -1,4 +1,5 @@
-#--------------------functions
+#https://evolveu.udemy.com/course/rest-api-flask-and-python/learn/lecture/15927742#overview
+# --------------functions
 
 # def functionname (parameters):
 #     "function_docstring"
@@ -47,11 +48,24 @@
 #         result = add(5,8)
 #         print(result)
 
+#----------lambda functions operate on inputs provide output....no other actions
+# nameless, just returns values.
+# eg 
 
+# def add(x,y):
+#         return x+y
 
+# SAME AS;
 
+# add = lambda x, y: x + y    (can be used without variable assignment, made to be shorthand!)
 
-
+# def double(x):
+#     return x * 2
+# OR
+# sequence = [1,3,5,9]
+# doubled =  [ (lambda x: x * 2)(x) for x in sequence]
+# OR 
+# doubled = list(map(lambda x: x * 2, sequence)
 
 
 
@@ -71,5 +85,56 @@
 #     print(uip10)
 
 #     bprint("uiP10", uip10)
+
+
+#------------------------Dictionary comoprehensions
+
+# users = [
+#   (0, "bob", "password"),
+#   (0, "rolf", "bob123"),
+#   (0, "jose", "longpassword"),
+#   (0, "username", "1234"),
+# ]
+
+# username_mapping = {user[1]: user for user in users}
+# print(username_mapping)
+
+#---------------------upacking arguments
+
+
+#def multiply(*args):  #function has a set of arguments that will be collected
+ #   print(args)
+
+
+#unpacking keywords
+# def named(**kwargs):  ** collects keyword arguements into a dictonary
+#     print(kwargs)
+
+# detatils = {"name": "bob","age": 25}
+# named(**details)  ** can be used in a function call to unpack a dictonary into keyword arguements
+
+# def both(*arg,**kwargs):    *collect all positional arg,  and all named arguements into kwargs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
