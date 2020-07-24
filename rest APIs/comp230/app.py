@@ -2,56 +2,84 @@
 # ref:   https://openpyxl.readthedocs.io/en/stable/tutorial.html
 # larryVid:   https://zoom.us/rec/share/yZRwBYiz2GJJGbORsX3DUIgoB920X6a80CRM8_dbyUowTM1x9eFkMsUiR7xMRxpP
 
- 
-
 import openpyxl
 from openpyxl import load_workbook
-      # from openpyxl import Workbook
-      # import xlrd
 
-
+CRED ='\033[91m'
+CEND ='\033[0m'
+CGREEN = '\33[32m'
+CBLINK ='\33[5m'
+ 
 wb = load_workbook(filename = 'Comp230_excel.xlsx')
-      #  sheet_ranges = wb['customer_id','name','address','email']
-      #print(sheet_ranges['D18'].value)
-for sheet in wb:
-    print(sheet.title)  #iterate through 
-    for row in sheet.values:
-        for value in row:
-            print(value)
+
+client_sheet = wb["clients"]
+customers={}
+
+for row in client_sheet.iter_rows(min_row=2,min_col=0,values_only=True):
+      customer_id = row[0]
+      cust = {
+                  "name": row[1],
+                  "address": row[2],
+                  "email": row[3]
+            }
+      customers[customer_id] = cust
+
+invoice_sheet = wb["invoices"] 
+invoices={}
+for row in invoice_sheet.iter_rows(min_row=2,min_col=0,values_only=True):
+      invoice_id = row[0]
+      inv = {
+                  "customer_id": row[1],
+                  "date": row[2]  
+            }
+      invoices[invoice_id] = inv
+
+itemsold_sheet = wb["itemsold"] 
+itemsold={}
+for row in itemsold_sheet.iter_rows(min_row=2,min_col=0,values_only=True):
+      items_sold_id = row[0]
+      item = {
+                  "invoice_id": row[1],
+                  "product_id": row[2],
+                  "quantity_sold": row[3]
+            }
+      itemsold[items_sold_id] = item
+
+productlist_sheet = wb["productlist"] 
+productlist={}
+for row in productlist_sheet.iter_rows(min_row=2,min_col=0,values_only=True):
+      product_id = row[0]
+      pro = {
+                  "product_name": row[1],
+                  "wieght": row[2],
+                  "price": row[3] 
+            }
+      productlist[product_id] = pro
+#print(productlist)
+# print(itemsold)
+print('Enter your invoice#')
+
+x = int(input())
+
+def invoice_printer():
+      date=invoices[x]['date']
+      invoiced_customer_id=invoices[x]['customer_id']
+      customer_name=customers[invoiced_customer_id]['name']
+      customer_email=customers[invoiced_customer_id]['email']
+      overall_price=0
+      print(CGREEN + f"Customer report for _{customer_name}_ regarding invoice #_{x}_ on {date} "+ CEND )
+      for y in itemsold: 
+            if (itemsold[y]['invoice_id'])==x:
+                  product_dict=itemsold[y]['product_id']
+                  product_name=productlist[product_dict]['product_name']
+                  price=productlist[product_dict]['price']
+                  # print(itemsold[y]['product_id'])
+                  sold=itemsold[y]['quantity_sold']
+                  total_price=round(sold*price,2)
+                  overall_price+=total_price
+                  print(f"Product:  {product_name} Quantity:  {sold} Price per unit:  ${price} Total Price:  ${total_price} ")
+      print(CRED + f"Total invoice pricing is: ${round(overall_price,2)}"+ CEND)
+invoice_printer()
 
 
-#workbook = xlrd.open_workbook('Comp230_excel.xlsx')
-#{'customer_id':worksheet.cell(2,0).value,'name':worksheet.cell(2,1).value,'address':worksheet.cell(2,2).value,'email':worksheet.cell(3,3).value}
-# worksheet = workbook.sheet_by_name('invoices')
-# worksheet = workbook.sheet_by_name('itemssold')
-# worksheet = workbook.sheet_by_name('productlist')
 
-
-
-# customers=[]
-# customers={"customers":[]}
-# invoices={}
-# items_sold={}
-# products={}
-# print(rowa)
-# customers.append(rowa)
-# customers.append(rowb)
-# print("hello World")
-#
-
-# {
-#    [
-#         {
-#             "id": 1
-#             "name": John
-#             "address": 233
-#             "email:":john@hotmail.com
-#         }
-#         {
-#             "id": 2
-#             "name": anne
-#             "address": 2511
-#             "email:":anne@hotmail.com
-#         }
-#     ]
-# }
