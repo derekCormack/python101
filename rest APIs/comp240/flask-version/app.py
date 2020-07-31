@@ -1,11 +1,11 @@
-# Create an API to send a JSON document to a React frontend (SPA)
-
 import openpyxl
 from openpyxl import load_workbook
 from data_xl import customer_call, invoice_call,itemsold_call,product_call, loopdahdata_call
-from flask import (Flask, render_template)
+from flask import (Flask, jsonify, render_template)
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True)
 
 @app.route("/")
 def hello():
@@ -23,6 +23,12 @@ def plain():
 def dumpcustomer():
      return render_template("dump.html", customer=customer_call())
 
+@app.route("/json/customer", methods = ['POST','GET'])
+def jsoncustomer():
+       data=customer_call()
+       print(data)
+       return jsonify(data), 200
+
 @app.route('/dump/invoice')
 def dumpinvoice():
        return render_template("dump.html", customer=invoice_call())
@@ -35,9 +41,37 @@ def dumpitemsold():
 def dumpproduct():
        return render_template("dump.html", customer=product_call())
 
-@app.route('/loop')
-def dumploop():
-       return render_template("dump.html", customer=loopdahdata_call(product_call()))
+@app.route("/json/product", methods = ['POST','GET'])
+def jsonproduct():
+       data=product_call()
+       print(data)
+       return jsonify(data), 200
+
+@app.route('/loop/product')
+def dumploopproduct():
+       data = product_call()
+       app.logger.debug(data)
+       return render_template("loopproduct.html", products=data)
+
+@app.route('/loop/itemsold')
+def dumploopitemsold():
+       data = itemsold_call()
+       app.logger.debug(data)
+       return render_template("loopitemsold.html", itemsold=data)
+
+@app.route('/loop/customer')
+def dumploopcustomer():
+       data = customer_call()
+       app.logger.debug(data)
+       return render_template("loopcustomer.html", customer=data)
+
+@app.route('/loop/invoice')
+def dumploopinvoice():
+       data = invoice_call()
+       app.logger.debug(data)
+       return render_template("loopinvoice.html", invoice=data)
+
+
 
 
 

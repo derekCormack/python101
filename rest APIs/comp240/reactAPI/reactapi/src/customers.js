@@ -2,11 +2,14 @@ import React from 'react';
 
 
 function Customers(props) {
+    console.log(props.data);
     return (
         <p>
-          Hello from customer !!
+          Hello from customer v3 !!
           
-           {props.data[1].name}
+           {props.data.name}
+           {props.data.address}
+           {props.data.email}
         </p>
     );
 }

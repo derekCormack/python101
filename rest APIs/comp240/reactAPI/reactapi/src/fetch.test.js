@@ -1,7 +1,7 @@
 import functions from './fetch.js'
 
 test('test that the fetch works?', async () => {
-const url = 'http://localhost:5000/dump/larry';
+const url = 'http://localhost:5000/json/customer';
     
     // Check that the server is running and clear any data
     // let data = await functions.postData(url + 'clear');
