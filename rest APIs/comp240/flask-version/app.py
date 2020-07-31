@@ -33,9 +33,21 @@ def jsoncustomer():
 def dumpinvoice():
        return render_template("dump.html", customer=invoice_call())
 
+@app.route("/json/invoice", methods = ['POST','GET'])
+def jsoninvoice():
+       data=invoice_call()
+       print(data)
+       return jsonify(data), 200
+
 @app.route('/dump/itemsold')
 def dumpitemsold():
        return render_template("dump.html", customer=itemsold_call())
+
+@app.route("/json/itemsold", methods = ['POST','GET'])
+def jsonitemsold():
+       data=itemsold_call()
+       print(data)
+       return jsonify(data), 200
 
 @app.route('/dump/product')
 def dumpproduct():

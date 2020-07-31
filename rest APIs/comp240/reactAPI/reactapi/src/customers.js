@@ -2,7 +2,7 @@ import React from 'react';
 
 
 function Customers(props) {
-    console.log(props.data);
+
     return (
         <p>
           Hello from customer v3 !!

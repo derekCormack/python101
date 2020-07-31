@@ -8,6 +8,8 @@ const hardcode = {1: {'name': 'jack ', 'address': 2355, 'email': 'jack@bbb.com'}
 const url = 'http://localhost:5000/';
 let customerdata ={1: {'product_name': 'gizmoschlonker', 'wieght': 1, 'name':"name not loaded"}}
 let productdata={"1":{"price":"not loaded yet","product_name":"not loaded yet","wieght":"not loaded yet"}}
+let invoicedata={}
+let itemsolddata={}
 class App extends React.Component {
 
   constructor() {
@@ -18,9 +20,10 @@ class App extends React.Component {
       }
   }
     async componentDidMount() {
-      customerdata={}
+      
       customerdata = await functions.postData(url + 'json/customer');
-      productdata={}
+      invoicedata = await functions.postData(url + 'json/invoice');
+      itemsolddata = await functions.postData(url + 'json/itemsold');
       productdata = await functions.postData(url + 'json/product');
       // this.community.fromserver(data);
       this.setState({ counter: 0 })
@@ -31,15 +34,34 @@ class App extends React.Component {
 render() {
   const customerArray =[];
   let keyCounter = 0;
-  for(const row in customerdata) {
+  for(const row in hardcode) {
     keyCounter+=1;
-    customerArray.push(<Customers 
-      key={keyCounter}
-      data = {row}
-      
-      />)
-}; 
+    let cust={
+      key:keyCounter,
+      data : row,
+      dict : hardcode[row],
+      alldata : hardcode
+    }
+    customerArray.push(cust)
+    // customerArray.push(<Customers 
+    //   key={keyCounter}
+    //   data = {row}
+    //   dict = {hardcode[row]}
+    //   alldata={hardcode}
+    //   />)
 
+// **  NEVER PUSH react component inside ARRAY!  against life cycle and hooks recomendation
+
+//  1. creat customer object/push inside customer array/ iterate of customer array with map function/ return JSX  (line 61 ptag)
+
+}; 
+console.log(customerArray)
+  let cust_object =  (<div>
+    {customerArray.map((customer, index) => (
+<p>Hello, {customer.dict.name} BOYEEUAH!</p>
+
+ ))}
+</div>);
 
   return (
     <div className="App">
@@ -47,9 +69,11 @@ render() {
         <h1>
           Getting information from our invoice spreadsheet.
         </h1>
-        <p>
+        
+    <p>
+          
           Table of customer information. <br/>
-          {customerArray}
+          {cust_object}
         </p>
         <Customers
           data={hardcode}

@@ -1,5 +1,4 @@
 const functions = {
- 
     async  postData(url = '', data = {}) {
         // Default options are marked with *
         const response = await fetch(url, {
@@ -15,6 +14,7 @@ const functions = {
             referrer: 'no-referrer',    // no-referrer, *client
             body: JSON.stringify(data)  // body data type must match "Content-Type" header
         });
+        
 
         const json = await response.json();    // parses JSON response into native JavaScript objects
         json.status = response.status;
